@@ -11,10 +11,13 @@ class ApiCall {
   final String msg = "An error occured: ";
   static const String apiKey = "7c760c888117450f9ac628d1e86a7517";
   String newsUrl =
-      "https://newsapi.org/v2/everything?q=tesla&from=2021-10-03&sortBy=publishedAt&apiKey=7c760c888117450f9ac628d1e86a7517=$apiKey";
+      "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=$apiKey";
   Future<Forbes> newsApi() async {
     try {
-      final response = await http.get(Uri.parse(newsUrl));
+      final response = await http.get(Uri.parse(newsUrl)).timeout(
+            Duration(seconds: 60),
+          );
+      print(response.body);
       if (response.statusCode == 200) {
         var convert = json.decode(response.body);
         if (convert.toString().isNotEmpty && response.statusCode == 200) {
@@ -29,16 +32,14 @@ class ApiCall {
       return Forbes(msg: _nointernet, status: "Failed");
     } on TimeoutException catch (_) {
       return Forbes(msg: _timeMsg, status: "Failed");
-    
-
-      }
-      // final response1 = await http.post(
-      //   Uri.parse(newsUrl),
-      //   body: {
-      //     'email': "kausar",
-      // 'pword': 'fsfhj',
-      // });
-     catch (e) {
+    }
+    // final response1 = await http.post(
+    //   Uri.parse(newsUrl),
+    //   body: {
+    //     'email': "kausar",
+    // 'pword': 'fsfhj',
+    // });
+    catch (e) {
       return Forbes(status: "Failed", msg: msg + '$e');
     }
   }

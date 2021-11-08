@@ -5,7 +5,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'api.dart';
 import 'forbes.dart';
 
-
 class NewsScreen extends StatefulWidget {
   const NewsScreen({Key? key}) : super(key: key);
 
